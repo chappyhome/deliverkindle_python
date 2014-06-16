@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block keyworld %},{{ book.name }}{% endblock %}
+{% block description %}{{ book.name }} -作者：{{ book.author }}{% endblock %}
+{% block title %}{{ book.name }}{% endblock %}
+{% block main %}
+{% load comments %}
+{% get_comment_count for book as comment_count %}
+<style>
+    #book{}
+    #book div.info{position: relative; border:1px solid #f4f4f4;padding:10px ;background:#fff;}
+    #book div.pic{float:left;width:200px;margin:0 10px 10px 0;}
+    #book div.pic img{width:160px;}
+    #book div.meta{float:left;padding:0 0 0 100px;width:350px;}
+    #book div.inst{margin:10px 0;}
+    #book div.action{position: relative;float:left;padding:25px;top:100px;left:150px;}
+</style>
+<div id="favorites_append_node" style="display:none">
+    <div class="lid" id="mybookdiv{{book.id}}" >
+        <li class="g1"><a href="/books/reader/{{book.id}}" target="_blank" title="{{book.title}}">{{book.title|truncatechars:20}}</a></li>
+        <li class="g3"><a href="#" favorites_id="{{book.id}}">删除</a></li>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+    $( document ).on("click","#book-star",function(e){
+             var that = $(this);
+             $.post("/books/mark/",'book_id={{book.id}}&csrfmiddlewaretoken={{csrf_token}}',function(data){
+                      //alert(data.status);
+                      if(data.status == -1){
+                                alert("你尚未登录，请登录后再收藏.");
+                            }else if(data.status == 0){
+                                alert('系统忙，请稍后再试.');
+                            }
+                            else if(data.status == 1){
+                                that.toggleClass('star');
+                            }
+                },"json");
+    });
+
+    $( document ).on("click","#captcha-show",function(e){
+        if($(".captcha-box").show()){
+            $(this).hide();
+        }
+        alert("我要下载啦!")
+    });
+});
+</script>
+{% if is_favorite %}
+    <div class="icon star" id="book-star" ></div>
+{% else %}
+    <div class="icon" id="book-star" ></div>
+{% endif %}
+<h1 style="margin: 0 18px;">{{ book.title }}</h1>
+<div id="book">
+    <div class="info">
+        <div class="pic"><img src="/static/epub_content/{{ book.path }}/cover_128_190.jpg" alt="{{ book.title }}"></div>
+        <div class="meta">
+            <div>作者：{{ book.author|truncatewords:6 }}</div>
+            <div>出版时间：{{ book.pubdate|date:"m/d/Y"}}</div>
+            <div>大小：{{ book.uncompressed_size|filesizeformat  }}</div>
+            <div>ISBN：{{ book.isbn }}</div>
+            <div>所属分类：<a href="/category/{{ book_cate_id }}/" >{{ book_cate_info_json.name }}</a></div>
+            <!-- <div><b>在线浏览</b>：<a href="/books/reader/{{ book.id }}" target="_blank">{{ book.format }}</a></div> -->
+             <div><b>在线浏览</b>:
+            {% for format in open_format_list %}
+                <a href="/books/reader/{{ book.id }}/{{ format|lower }}" target="_blank">{{ format }}</a>
+            {% endfor %}
+             </div>
+            <div><b>下载</b>:
+            {% for format in format_list %}
+                <a href="{{ url }}.{{ format|lower }}?key={{ ipkey }}">{{ format }}</a>
+            {% endfor %}
+             </div>
+
+        </div>
+        <div class="clear"></div>
+    </div>
+
+  <!-- <div class="download-sect"><a href="javascript:void(0);" id="captcha-show" class="show">点击获取下载地址</a>
+        <form id="captcha" action="/captcha" method="POST">
+            <p class="captcha-box" style="display:none;">
+                <span>输入您在以下图片中看到的字符(不区分大小写)</span><span><img alt="验证码" width="330" height="45" id="captcha-image" surl="/captcha?skey=35d085329438f63f6d581390f255bdf1"></span><span><input class="f-text" type="text" name="captcha"><input type="hidden" name="skey" value="AgdWZ1F/VCEGYFc8Al5RPgclAWUMYVA0B2dVY1FlVzI="><input class="f-button" id="captcha-submit" type="submit" value="点击下载">
+                </span>
+            </p>
+        </form>
+    </div> -->
+    <div class="inst">
+        <h2>内容简介</h2>
+        {% autoescape off %}{{ book.descript|linebreaksbr }}{% endautoescape %}
+    </div>
+
+
+
+</div>
+{% render_comment_list for book %}
+{% render_comment_form for book %}
+{% endblock %}
+{% load book_tags %}
+{% block sidebar %}
+<div  style="margin:35px 10px 2px 0;">{% get_book_by_clicktime %}</div>
+{% get_book_by_related1  book.title %}
+{% endblock %}

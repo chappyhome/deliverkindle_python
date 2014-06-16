@@ -1,0 +1,11 @@
+共{{ entrys.paginator.count }}条记录 第{{ entrys.number }}/{{ entrys.paginator.num_pages }}页
+<a href="/{{ pre_url }}/p1/{{ suf_url }}">首页</a>
+{% if entrys.has_previous %}
+    <a href="/{{ pre_url }}/p{{ entrys.previous_page_number }}/{{ suf_url }}">上一页</a>
+{% endif %}
+
+ {% if entrys.has_next %}
+    <a href="/{{ pre_url }}/p{{ entrys.next_page_number }}/{{ suf_url }}">下一页</a>
+{% endif %}
+<a href="/{{ pre_url }}/p{{ entrys.paginator.num_pages  }}/{{ suf_url }}">末页</a>
+

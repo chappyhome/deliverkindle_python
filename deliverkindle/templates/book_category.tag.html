@@ -1,0 +1,14 @@
+{% load cache %}
+
+<ul>
+    <h2>图书分类：</h2>
+    {% for category in categorys %}
+        <li>
+            <a href="/category/{{ category.id }}" title="分类 {{ category.name }} 下有{{ category.count }}条分享">
+                {{ category.name }}
+            </a>
+            <span class="dark">({{ category.count|default:"0"}})</span>
+        </li>
+    {% endfor %}
+</ul>
+<div class="clear"></div>

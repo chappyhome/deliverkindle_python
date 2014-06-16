@@ -1,0 +1,11 @@
+<ul>
+    <h2>您可能也喜欢</h2>
+    {% for entry in entry_list %}
+        <li>
+            <a href="/books/{{ entry.id }}" title="{{ entry.title }}">
+                {{ entry.title|truncatechars:23 }}</a>
+        </li>
+    {% empty %}
+        <li><center>无记录</center></li>
+    {% endfor %}
+</ul>

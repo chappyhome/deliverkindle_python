@@ -1,0 +1,1 @@
+<p>您的位置: {% for b in request.breadcrumbs %}<a href="{{ b.url }}">{{ b.name }}</a>{% if not forloop.last %}>{% endif %}{% endfor %}</p>

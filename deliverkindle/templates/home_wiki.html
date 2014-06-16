@@ -1,0 +1,34 @@
+{% extends "home_base.html" %}
+{% block keyworld %}{{ user.get_profile.screen_name }},{{ user.get_profile.screen_name }}分享的文章,python文章{% endblock %}
+{% block title %}{{ user.get_profile.screen_name }}分享的文章{% endblock %}
+{% block description %}{{ user.get_profile.screen_name }}在Pythoner.net上分享的文章{% endblock %}
+{% block h1 %}{{ user.get_profile.screen_name }}分享的文章{% endblock %}
+{% block main %}
+<style>
+#wiki-list li{background:none;padding:0;}
+#wiki-list li span.public{font-weight:800;}
+</style>
+    {% load comments %}
+    {% load home_tags %}
+    {% load wiki_tags %}
+    <ul class="list" id="wiki-list">
+    {% if request.user == user %}<div class="action"><a href="/wiki/add/">+ 分享文章</a> </div>{% endif %}
+	{% for entry in entrys.object_list %}
+	{% get_comment_count for wiki.entry entry.id as comment_account %}
+        <li>
+            {% if entry.public %}<span class="public">[荐]</span>{% endif %}
+            <a href="{{ entry.get_absolute_url }}" title="{{ entry.title }}" class="title">
+                {{ entry.title|title }}</a>
+            <span class="time">发表于{{ entry.sub_time|how_long }}
+            </span>
+            <span class="count">{{ comment_account }}评 {{ entry.click_time }}阅</span>
+        </li>
+    {% empty %}
+        <p style="text-align:center;">没有找到记录</p>
+    {% endfor %}
+        <div class="more">{% include 'paginator.inc.html' %}</div>
+        <div class="clear"></div>
+    </ul>
+{% endblock %}
+{% block sidebar %}
+{% endblock %}

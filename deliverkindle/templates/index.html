@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load main_tags %}
+{% load cache %}
+{% load home_tags %}
+{% load comments %}
+{% load accounts_tags %}
+{% block main %}
+<style>
+ul.login_method a:hover{background:none;}
+ul.login_method{border:1px solid #f4f4f4;background:#f4f4f4;}
+ul.login_method h2{margin:5px 10px;}
+ul.login_method img{margin:0 0 0 80px;}
+
+ul.show{list-style:none;margin:0;padding:0 0 10px;}
+ul.show li{display:block;width:330px;height:20px;overflow:hidden;float:left;margin:0 0 1px;padding:0;}
+ul.show span{color:#666;}
+ul.show li.blank{display:block;width:20px;}
+ul.show .time{float:right;text-align:right;}
+
+ul.topic{padding:0 0 0 10px;}
+ul.topic li{width:310px;}
+ul li.zero{background:url(/static/images/li5.gif) 6px 5px no-repeat;}
+div.top-show{height:60px;width:330px;overflow:hidden;float:left;margin:0;}
+div.top-show a{color:#000;font-size:14px;}
+div.top-show div.content{color:#777;line-height:16px;}
+div.right{margin:0 0 0 20px;}
+#container .topic a,#container .wiki{text-decoration:underline;}
+#thx{margin:0;padding:0}
+#thx li{ margin:0}
+#thx li img{height:30px;line-height:30px; width:110px;border:1px solid #cecece; padding:1px;margin:2px;}
+#list-box{width:188px;background:#f3f3f3;position:absolute;padding:0 6px;font-size:8px;}
+.key-hover{background:#33CCFF;color:#333333;}
+</style>
+        <!-- 板报 -->
+        <div class="box">
+            <h2>
+                <a class="title" href="#">最新图书更新</a>
+                
+            </h2>
+            <ul class="show topic">
+                {% for book in books %}
+                    <li>
+                        <a href="/books/{{book.id}}" class="title" title="{{ book.title }}">{{ book.title|slice:"12" }}</a>
+                        {% if book.timestamp < 86400 %}
+                                <img src="/static/images/new.gif" />
+                        {% endif %}
+                        <span class="time">{{ book.date|date:"m/d/Y"}}</span>
+                    </li>
+                    <li class="blank"></li>
+                {% endfor %}
+                <a href="/books/" class="category_more">查看更多>></a>
+            </ul>
+            <div class="clear"></div>
+        </div>
+<!-- 
+        <div class="box">
+            <h2>
+                <a class="title" href="#">最新名博更新</a>
+                
+            </h2>
+            <ul class="show topic">
+                {% for book in output_blog_books %}
+                    <li>
+                        <a href="/books/{{book.id}}" class="title" title="{{ book.title }}">{{ book.title|slice:"12" }}</a>
+                        {% if book.timestamp < 86400 %}
+                                <img src="/static/images/new.gif" />
+                        {% endif %}
+                        <span class="time">{{ book.date|date:"m/d/Y"}}</span>
+                    </li>
+                    <li class="blank"></li>
+                {% endfor %}
+                <a href="/category/206/" class="category_more">查看更多>></a>
+            </ul>
+            <div class="clear"></div>
+        </div>
+
+        <div class="box">
+            <h2>
+                <a class="title" href="#">最新网络小说更新</a>
+                
+            </h2>
+            <ul class="show topic">
+                {% for book in output_net_story_books %}
+                    <li>
+                        <a href="/books/{{book.id}}" class="title" title="{{ book.title }}">{{ book.title|slice:"12" }}</a>
+                        {% if book.timestamp < 86400 %}
+                                <img src="/static/images/new.gif" />
+                        {% endif %}
+                        <span class="time">{{ book.date|date:"m/d/Y"}}</span>
+                    </li>
+                    <li class="blank"></li>
+                {% endfor %}
+                <a href="/category/4/" class="category_more">查看更多>></a>
+            </ul>
+            <div class="clear"></div>
+        </div> -->
+    {% for cate_id, cate_info in output_display.items %}
+         <div class="box">
+            <h2>
+                <a class="title" href="#">{{ cate_info.dispaly_title }}</a>
+                
+            </h2>
+            <ul class="show topic">
+                {% for book in cate_info.books%}
+                    <li>
+                        <a href="/books/{{book.id}}" class="title" title="{{ book.title }}">{{ book.title|slice:"12" }}</a>
+                        {% if book.timestamp < 86400 %}
+                                <img src="/static/images/new.gif" />
+                        {% endif %}
+                        <span class="time">{{ book.date|date:"m/d/Y"}}</span>
+                    </li>
+                    <li class="blank"></li>
+                {% endfor %}
+                <a href="/category/{{ cate_id }}/" class="category_more">查看更多>></a>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    {% endfor %}
+
+        <div class="box">
+            <h2>
+                <a class="title" href="#">排行榜</a>
+                
+            </h2>
+            <ul class="show topic">
+                {% for data in datas %}
+                    <li>
+                        <a href="/books/{{ data.id }}" class="title">{{ data.title|slice:"15" }}</a>
+                        <span class="dark">({{ data.click }})</span>
+                    </li>
+                    <li class="blank"></li>
+                {% endfor %}
+            </ul>
+            <div class="clear"></div>
+        </div>
+
+          <div class="box"  >
+             <div id="tags">
+                <h2><a class="title" href="#">热门标签</a></h2>
+               <ul> 
+                    {% for category in categorys %}
+                        <li>
+                            <a href="/category/{{ category.id }}" title="标签 {{ category.name }} 下有 {{ category.count }} 本书">
+                                {{ category.name|title }}
+                            </a>
+                        </li>
+                   
+                    {% endfor %} 
+                     <a href="/category/" class="category_more">查看更多>></a>
+                <div class="clear"></div>
+                   
+                </ul> 
+            </div>
+
+        </div>
+
+
+        <!-- 正在讨论 -->
+        <div class="box">
+            <h2>
+                <a href="/topic/" class="title">正在讨论</a>
+                <a class="action" href="/topic/add/">发起讨论>></a>
+            </h2>
+            <ul id="code-list" class="list index">
+                {% for topic in topics %}
+                    {% get_comment_count for topic.topic topic.id as comment_count %}
+                    <li class="{% if comment_count == 0 %}zero{% endif %}">
+                        <a class="title" href="{{ topic.get_absolute_url }}" title="{{ topic.content|slice:"45" }}">{{ topic.title|slice:"30" }}</a>
+                        <span class="time">{{ topic.sub_time|how_long }}</span>
+                        <span class="author">By {{ topic.author.get_profile.screen_name }}</span>
+                        <span class="count">{{ comment_count }}评/{{ topic.click_times }}阅</span>
+                        <div class="clear"></div>
+                    </li>
+                    <div class="clear"></div>
+                {% endfor %}
+                <a href="/topic/" class="more">查看更多>></a>
+                <div class="clear"></div>
+            </ul>
+        </div><!-- end box -->
+    
+       
+{% endblock %}
+{% block sidebar %}
+        <div  style="margin:5px 10px 2px 0;">{% get_alive_user %}</div>
+        <div class="clear"></div>
+        {% get_latest_comment 25 %}
+        <ul id="thx">
+            <h2>由以下开源产品强力驱动</h2>
+            <li><img src="/static/images/python.gif" title="python"></li>
+            <li><img src="/static/images/django.gif" title="django"></li>
+            <li><img src="/static/images/nginx.gif" title="nginx"></li>
+            <li><img src="/static/images/centos.png" title="centos"></li>
+            <li><img src="/static/images/mysql.png" title="mysql"></li>
+        </ul>
+        <div class="clear"></div>
+{% endblock %}
+{% include 'foot.html' %}

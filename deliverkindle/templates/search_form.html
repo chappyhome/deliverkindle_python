@@ -1,0 +1,19 @@
+<script>
+	$(document).ready(function(){
+		$('input#search').click( function() {
+			var q = $('input#qv').val();
+			if(q != ''){
+				$('#search_form').submit();
+			}
+			
+		});
+	});
+</script>
+<form action="/books/search/" method="get" id="search_form">
+<input type="text" name="q" value="{{keyword}}" style="height: 28px;width:60%;" id='qv'>
+&nbsp;
+&nbsp;
+&nbsp;
+{% csrf_token %}
+<input type="button" value="Search" style="height: 28px;" name="search" id="search">
+</form>  

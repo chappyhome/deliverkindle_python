@@ -1,0 +1,16 @@
+{% load cache %}
+{% cache 3600 hot_tags %}
+{% endcache %}
+<div id="tags">
+    <ul>
+        <h2>热门标签：</h2>
+        {% for entry in entry_list %}
+            <li>
+                <a href="/category/{{ entry.id }}" title="标签 {{ entry.name }} 下有 {{ entry.count }} 本书">
+                    {{ entry.name|title }}
+                </a>
+            </li>
+        {% endfor %}
+    <div class="clear">&nbsp;</div>
+    </ul>
+</div>

@@ -1,0 +1,24 @@
+{% if user.is_authenticated %}
+<div id="feedback_widget">
+	<div id="feedback_tab" class="feedback_toggle">
+		<button type="button">我的收藏</button>
+	</div>
+	<div class="feedback_toggle" id="feedback_panel">
+		<div class="title" style="height: 23px; padding: 7px 10px 0px 0px; background-color: #CCCCCC; color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial;"><h1 style="float: left; padding: 0px; margin: 0px; font-size: 14px; line-height: 16px;">我的书架，每个书架最多能存放30本书！</h1><!-- <span style="float: right; cursor: pointer;">关闭</span> --></div>
+		<div class="bookdiv">
+			   <li class="g1"><b>书籍名称</b></li>
+			   <li class="g3"><b>操作</b></li>
+			{% for entry in entrys %}
+        		 <div class="lid" id="mybookdiv{{entry.id}}">
+        		 	<li class="g1"><a href="/books/reader/{{entry.id}}" target="_blank" title="{{entry.title}}">{{entry.title|truncatechars:20}}</a></li>
+        		 	<li class="g3"><a href="#" favorites_id="{{entry.id}}">删除</a></li>
+				</div>
+			{% empty %}
+				<center>你的收藏为空.</center>
+    		{% endfor %}
+    		<li class="g1" id="insert_tag"></li>
+    		<button type="button">Close</button>
+		</div>
+	</div>
+</div>
+{%endif%}

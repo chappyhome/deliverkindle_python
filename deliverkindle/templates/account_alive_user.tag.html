@@ -1,0 +1,11 @@
+<h2>活跃用户</h2>
+{% load accounts_tags %}
+<ul class="user only-photo">
+    {% for user in users %}
+        <li>
+            <a href="/home/{{ user.id }}/" title="{{ user.get_profile.screen_name }}({{ user.get_profile.city }})">
+                <img src="{{ user.username|gravatar_url }}">
+            </a>
+        </li>
+    {% endfor %}
+</ul>

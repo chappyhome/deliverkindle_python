@@ -1,0 +1,23 @@
+{% extends 'home_base.html' %}
+{% block title %}个人设置{% endblock %}
+{% block h1 %}个人设置{% endblock %}
+{% block home_tabs %}{% include 'home_edit_tabs.inc.html' %}{% endblock %}
+{% block main %}
+<style>
+#id_status,#id_web_site,#id_screen_name{width:250px;}
+#id_introduction{width:670px;height:200px;}
+p.submit{text-align:right;}
+</style>
+<form action="" method="POST" enctype="multipart/form-data">
+    <table>
+        <p><label>账号:</label>{{ request.user }} (不可更改)</p>
+        <p><label>位置:</label>{{ profile.city }}  <a href="/home/city/">搬家</a></p>
+        {{ form.as_p }}
+        {% csrf_token %}
+        <p class="submit"><input class="button" type="submit" value="更新我的设置" style="width:120px;"></p>
+    </table>
+</form>
+{% endblock %}
+{% block sidebar %}
+
+{% endblock %}

@@ -1,0 +1,65 @@
+﻿{% extends 'base.html' %}
+{% block title %}编辑{% endblock %}
+{% block main %}
+
+<style>
+#id_title{width:650px;}
+</style>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script type='text/javascript' src="/static/wmd/showdown.js"></script>
+<script type='text/javascript' src="/static/wmd/wmd.js"></script>
+<script type='text/javascript' src="/static/js/jquery.form.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/wmd/wmd.css" />
+<script type="text/javascript">
+$(document).ready(function(){
+    //$("#wmd-image-button").unbind("click");
+    $("#wmd-image-button").on("click",function(){
+        alert('hello world');
+        setTimeout(function(){
+            $(".wmd-prompt-dialog").css({"opacity": "0", display: "none"});
+        }, 100);
+        var $div = $("<div>");
+        var $form = $("<form>").attr({action: "create_new_blog_post/submit_image", method: "post"})
+        var $file = $("<input/>").attr({type: "file", name: "image"});
+        var $name = $("<input/>").attr({type: "text", name: "name", placeholder: "Name"});
+        var $submit = $("<input/>").attr("type", "submit");
+        $form.append($name, $file, $submit)
+        .ajaxForm(function(r) {
+            r = $.parseJSON(r);
+            if(r.success){
+                $("#dialogform input[type='text']").val(r.filename);
+                $("#dialogform input[value='OK']").trigger("click");
+                $div.dialog("close");
+            }
+        });
+        $div.append($form).dialog({title: "Upload Image"});
+    });
+    $("#wmd-link-button").on("click", function(){
+        alert('fuck gfw');
+        setTimeout(function(){
+            $(".wmd-prompt-dialog").css("opacity", "1");
+        }, 100);
+    });
+});
+</script>
+
+
+{% load topic_tags %}
+<h1>{{ title }}</h1>
+<form action="{{ form_action }}" method="POST">
+    <p><label>标题</label></br>{{ form.title }}</p>
+    <div id="wmd-button-bar" class="wmd-panel"></div>
+    <textarea id="wmd-input" class="wmd-panel" name="md_content">
+        {{ form.initial.md_content }}</textarea>
+    <br/>
+    <div id="wmd-preview" class="wmd-panel">preview</div>
+    {% csrf_token %}
+    <div style="text-align:right;">
+        <input type="submit" name="submit" value="写好了！" class="button" style="width:90px;">
+    </div>
+
+</form>
+{% endblock %}
+{% block sidebar %}
+    {% get_latest_topic %}
+{% endblock %}

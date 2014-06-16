@@ -1,0 +1,30 @@
+<style>
+    div#book-list div.book_detail{border-bottom:1px dashed #cecece;}
+    div.book_pic{width:150px;float:left;margin:10px 0 5px 0;}
+    div.book_pic img{height:100px;margin:0 0 0 15px;}
+    div.book_info{float:left;margin:10px 0 0 0;width:520px;}
+    /*div.price{float:right;}*/
+</style>
+    <div class="more">{% include 'paginator.inc.html' %}</div>
+    <div id="book-list">
+	{% for entry in entrys.object_list %}
+        <div class="book_detail">
+            <div class="book_pic">
+                <a href="/books/{{ entry.id }}"><img src="/static/epub_content/{{ entry.path }}/cover_128_190.jpg" alt="{{ entry.title }}"></a>
+            </div>
+            <div class="book_info">
+                <a class="name" href="/books/{{ entry.id }}" title="{{ entry.title }}" class="title">{{ entry.title }}</a>
+                <div class="publish">作者:{{ entry.author }} </div>
+                {% autoescape off %}
+                <div class="info">描述:{{ entry.descript|safe|truncatewords_html:6}}</div>
+                {% endautoescape %}
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    {% empty %}
+        <center><p><b>没有搜索到任何书籍</b></p></center>
+    {% endfor %}
+      <div class="clear"></div>
+    <div class="more">{% include 'paginator.inc.html' %}</div>
+    </div>

@@ -1,0 +1,43 @@
+﻿{% extends 'base.html' %}
+{% block title %}讨论{% endblock %}
+{% block description %}发起或者参与一个讨论{% endblock %}
+{% block canonical %}<link rel="canonical" href="http://pythoner.org/topic/" />{% endblock %}
+{% block main %}
+{% load topic_tags %}
+{% load accounts_tags %}
+{% load comments %}
+{% load topic_tags %}
+{% load book_tags %}
+{% if tag %}
+    <div id="category-list">
+        <h2>{{ tag.name }}</h2>
+    {{ tag.remark }}
+    </div>
+{% endif %}
+<div class="box">
+    <ul id="topic-list" class="list">
+        <li class="head">
+            <span>标题</span>
+            <span class="count">评论/点击</span>
+            <span class="author">作者</span>
+            <div class="clear"></div>
+        </li>
+    {% for entry in entrys.object_list %}
+    {% get_comment_count for topic.topic entry.id as comment_count %}
+        <li class="{% if comment_count == 0 %}zero{% endif %}">
+            <span>{% if entry.top %}<span class="red">[顶]</span>{% endif %}</span>
+            <a class="title" href="{{ entry.get_absolute_url }}">{{ entry.title|cut:" "|slice:"35" }}</a>
+            <span class="count">{{ comment_count }}/{{ entry.click_times }}</span>
+            <span class="author">{{ entry.author.get_profile.screen_name|slice:"15" }}</span>
+            <div class="clear"></div>
+        </li>
+    {% endfor %}
+    <div class="more">{% include 'paginator.inc.html' %}</div>
+    <div class="clear"></div>
+    </ul>
+</div>
+{% endblock %}
+{% block sidebar %}
+    <a href="/topic/add/" id="add">发起讨论</a>
+    {% get_category_by_clicktime 20 %}
+{% endblock %}

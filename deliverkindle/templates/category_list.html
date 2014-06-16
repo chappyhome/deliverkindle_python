@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}图书{% endblock %}
+{% block description %}值得一读的图书{% endblock %}
+{% block canonical %}<link rel="canonical" href="http://pythoner.org/wiki/" />{% endblock %}
+
+{% block main %}
+{% load book_tags %}
+    {% include 'breadcrumbs.html' %}
+    <div id="category-list">{% get_book_category %}  </div>
+{% endblock %}
+{% block sidebar %}
+<div  style="margin:20px 10px 2px 0;">{% get_book_by_clicktime %}</div>
+{% endblock %}
+

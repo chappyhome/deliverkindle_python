@@ -1,0 +1,1 @@
+uwsgi --http :8000 --chdir /data/htdocs/www.deliverkindle.com --module django_wsgi

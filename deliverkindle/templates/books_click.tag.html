@@ -1,0 +1,13 @@
+{% load cache %}{% cache 3600 books_click %}
+<ul>
+    <h2>点击排行</h2>
+    {% for entry in entry_list %}
+        <li>
+            <a href="/books/{{ entry.id }}" title="{{ entry.title }}">
+                {{ entry.title|truncatechars:15 }}</a>
+            <span class="dark">({{ entry.click }})</span></li>
+    {% empty %}
+        <li><center>无记录</center></li>
+    {% endfor %}
+</ul>
+{% endcache %}

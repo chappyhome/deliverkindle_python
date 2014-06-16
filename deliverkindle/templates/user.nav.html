@@ -1,0 +1,14 @@
+{% if request.user.is_authenticated %}
+    {% autoescape off %}<a href="/home/">{{ request.user.get_profile.screen_name }}</a>的声望:{{ request.user.get_profile.score }}{% endautoescape %}
+    <span class="blank">|</span>
+    <a href="/home/edit/">设置</a>
+    <span class="blank">|</span>
+    <a href="/accounts/logout/">退出</a>
+{% else %}
+    <span class="dark">你还没有登录</span>
+    <span class="blank">|</span>
+    <a href="/accounts/login/">登录</a>
+    <span class="blank">|</span>
+    <a href="/accounts/register/">加入</a>
+{% endif %}
+

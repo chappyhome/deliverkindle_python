@@ -1,0 +1,11 @@
+Django
+BeautifulSoup
+MySQL-python
+PIL
+redis
+uWSGI
+south
+markdown
+django_breadcrumbs
+ESClient
+configparser

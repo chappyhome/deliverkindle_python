@@ -1,0 +1,10 @@
+{% include "header.html" %}
+    <div id="container">
+        {% block home_title %}{% endblock %}
+        {% block main %}{% endblock  %}
+    </div><!-- #container -->
+
+    <div id="sidebar" class="span4">
+        {% block sidebar %}{% endblock %}
+    </div><!-- end sidebar -->
+ {% include 'foot.html' %}

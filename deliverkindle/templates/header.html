@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="zh-CN">
+<head>
+    <title>{% if page_title %}{{ page_title }}-{% endif %}Readream|梦想读书社|免费图书阅读|做最好的在线阅读网站</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="{{ page_description|truncatewords_html:16 }}" />
+    <meta name="keywords" content="{% include 'keyworld.html' %}{% block keyworld %}{% endblock %}" />
+    <meta name="baidu-site-verification" content="VaTcjD9fBB" />
+
+	<link rel="stylesheet" type="text/css" media="screen,projection" href="/static/css/style.css?t=201310111849" title="deliverkindle.com" />
+    <link rel="stylesheet" type="text/css" media="screen,projection" href="/static/favorites/favorites.css?t=201310111849" title="deliverkindle.com" />
+    <script type="text/javascript" src="/static/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.validate.js"></script>
+    <script type="text/javascript" src="/static/favorites/favorites.js"></script>
+    <script type="text/javascript" src="/static/js/UA-29512090-2.js"></script>
+   
+<style>
+</style>
+
+</head>
+<body>
+<script>
+    $(document).ready(function(){ $('.sub-nav').load('/main/usernav/'); });
+</script>
+<!-- JiaThis Button BEGIN -->
+<script type="text/javascript" >
+var jiathis_config={
+    url:"http://www.deliverkindle.com/",
+    summary:"在线小说阅读下载, 在线图书阅读下载,图书阅读器,古典名著,读书爱好者,读书社区,免费图书阅读,畅销图书,村上春树,网络小说,人物传记类,阿加莎克里斯蒂全集,外国古典文学名著,pdf,epub,mobi..
+",
+    title:"Readream|梦想读书社|免费图书阅读|做最好的在线阅读网站 #书中自有黄金屋#",
+    showClose:true,
+    shortUrl:false,
+    hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jiathis_r.js?btn=r.gif&move=0" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<div id="wrapper">
+    <div id="header">
+        <a class="logo" href="/">Readream<span class="orange">er</span> !</a>
+        <div class="top-nav">
+            <a href="/" {% if current_page == 'index' %}class="current"{% endif %}>首页</a>
+            <a href="/books" {% if current_page == 'books' %}class="current"{% endif %}>图书</a>
+            <a href="/category" {% if current_page == 'category' %}class="current"{% endif %}>分类</a>
+            <a href="/topic" {% if current_page == 'topic' %}class="current"{% endif %}>讨论</a>
+             <a href="/subscribe" {% if current_page == 'subscribe' %}class="current"{% endif %}>订阅更新</a>
+        </div>
+        <div class="sub-nav"></div><!-- end welcome -->
+    </div><!-- #header -->
+
+
+    {% if messages %}{% autoescape off %}
+        <ul id="system-msg">
+        {% for message in messages %}
+            <li class="{{ message.tags }}"><strong>{{ message }}</strong></li>
+        {% endfor %}
+        </ul>
+    {% endautoescape %}{% endif %}
+
+    {% if current_page == 'index' or  current_page == 'books' or current_page == 'category' or current_page == 'category_list' or current_page == 'book_detail' or current_page == 'topic' or current_page == 'search' %}
+    {% include 'search_form.html' %}
+    {% endif %}
+    
+       
+
+   
+

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}图书{% endblock %}
+{% block description %}值得一读的图书{% endblock %}
+{% block canonical %}<link rel="canonical" href="http://deliverkindle.com/" />{% endblock %}
+{% block main %}
+{% load book_tags %}
+	{% if not no_display_paginator_breadcrumbs %}
+    {% include 'breadcrumbs.html' %}
+    {% endif %}
+    <div class="box">{% include 'books_list.inc.html' %}</div>
+
+{% endblock %}
+{% block sidebar %}
+<div  style="margin:5px 10px 2px 0;">{% get_category_by_clicktime 20 %}</div>
+
+{% if not_allow_click_rank %}
+{% get_book_by_clicktime %}
+{% endif %}
+{% endblock %}
+

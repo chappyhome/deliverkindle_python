@@ -1,0 +1,29 @@
+{% extends "home_base.html" %}
+{% block keyworld %},{{ user.get_profile.screen_name }}{% endblock %}
+{% block title %}{{ user.get_profile.screen_name }}发起的话题{% endblock %}
+{% block description %}{{ user.get_profile.screen_name }}在pythoner.org讨论栏目发起的话题{% endblock %}
+{% block h1 %}{{ user.get_profile.screen_name }}的书架{% endblock %}
+{% load topic_tags %}
+{% block main %}
+<div>
+    {% load home_tags %}
+    <ul id="topic-list" class="list">
+    {% for entry in entrys.object_list %}
+        {% if entry.title %}
+        <li>
+            <a class="title" href="/books/{{ entry.id }}">{{ entry.title|cut:" "|slice:"35" }}</a>
+            <span class="count"> <a class="title" href="/books/reader/{{ entry.id }}" target="_blank">阅读</a></span>
+            <span class="author">{{ entry.book.author|cut:" "|slice:"35" }}</span>
+            <div class="clear"></div>
+        </li>
+        {% endif %}
+    {% empty %}
+        <p style="text-align:center;">没有找到记录</p>
+    {% endfor %}
+    <div class="more">{% include 'paginator.inc.html' %}</div>
+    <div class="clear"></div>
+    </ul>
+</div>
+{% endblock %}
+{% block sidebar %}
+{% endblock %}
